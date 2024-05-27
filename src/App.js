@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Container } from "./styles";
+
+import { LivroForm } from "./components/LivroForm";
+import { LivroTable } from "./components/LivroTable";
+import { useEffect, useState } from "react";
 
 function App() {
+  // UseState
+  const [btnCadastrar, setBtnCadastrar] = useState(true);
+  const [livros, setLivros] = useState([]);
+
+  // UseEffect
+  useEffect(() => {
+    fetch(`http://localhost:8080/livro/listar`)
+    .then(result => result.json)
+    .then(convertedResult => setLivros(convertedResult))
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <LivroForm status={btnCadastrar}/>
+      <LivroTable livroList={livros}/>
+    </Container>
   );
 }
 
